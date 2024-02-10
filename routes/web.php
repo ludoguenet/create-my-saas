@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Subscribe\CreateController;
 use App\Http\Controllers\Subscribe\DestroyController;
@@ -12,9 +13,19 @@ Route::get('/', function () {
 
 Route::middleware(['auth', 'verified'])
     ->group(function () {
-        Route::get('/dashboard', function () {
-            return view('dashboard');
-        })->name('dashboard');
+        Route::get('/dashboard', DashboardController::class)->name('dashboard');
+        Route::get('/user/invoice/{invoice}', function (Request $request, string $invoiceId) {
+            return auth()->user()->downloadInvoice($invoiceId, [
+                'vendor' => 'Your Company',
+                'product' => 'Your Product',
+                'street' => 'Main Str. 1',
+                'location' => '2000 Antwerp, Belgium',
+                'phone' => '+32 499 00 00 00',
+                'email' => 'info@example.com',
+                'url' => 'https://example.com',
+                'vendorVat' => 'BE123456789',
+            ]);
+        })->name('invoices');
 
         Route::prefix('subscribe')
             ->as('subscribe.')
