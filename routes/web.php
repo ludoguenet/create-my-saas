@@ -17,10 +17,14 @@ Route::middleware(['auth', 'verified'])
 
         Route::prefix('subscribe')
             ->as('subscribe.')
+            ->middleware('redirect.subscribed')
             ->group(function () {
                 Route::get('create', CreateController::class)->name('create');
                 Route::post('store', StoreController::class)->name('store');
             });
+
+        Route::get('/basic', fn () => dd('basic access'))->name('basic')->middleware('redirect.not.subscribed');
+        Route::get('/premium', fn () => dd('premium access'))->name('premium')->middleware('redirect.not.premium');
     });
 
 Route::middleware('auth')->group(function () {

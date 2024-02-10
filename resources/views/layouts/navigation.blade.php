@@ -15,8 +15,19 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+
+                    @if(! auth()->user()->subscribed())
                     <x-nav-link :href="route('subscribe.create')" :active="request()->routeIs('subscribe.create')">
                         {{ __('Abonnements') }}
+                    </x-nav-link>
+                    @endif
+
+                    <x-nav-link :href="route('basic')" :active="request()->routeIs('basic')">
+                        {{ __('Acces Basique') }}
+                    </x-nav-link>
+
+                    <x-nav-link :href="route('premium')" :active="request()->routeIs('premium')">
+                        {{ __('Acces Premium') }}
                     </x-nav-link>
                 </div>
             </div>
