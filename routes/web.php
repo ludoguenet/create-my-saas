@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Subscribe\CreateController;
+use App\Http\Controllers\Subscribe\DestroyController;
 use App\Http\Controllers\Subscribe\StoreController;
 use Illuminate\Support\Facades\Route;
 
@@ -21,6 +22,7 @@ Route::middleware(['auth', 'verified'])
             ->group(function () {
                 Route::get('create', CreateController::class)->name('create');
                 Route::post('store', StoreController::class)->name('store');
+                Route::delete('destroy', DestroyController::class)->name('destroy')->withoutMiddleware('redirect.subscribed');
             });
 
         Route::get('/basic', fn () => dd('basic access'))->name('basic')->middleware('redirect.not.subscribed');
